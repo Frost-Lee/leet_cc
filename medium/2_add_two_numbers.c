@@ -18,7 +18,7 @@ struct ListNode* appendNode(struct ListNode** prev, int val) {
 }
 
 
-struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
     int carry = 0;
     struct ListNode* dummyRoot = appendNode(NULL, 0);
     struct ListNode* thisNode = dummyRoot;
