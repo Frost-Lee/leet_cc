@@ -1,7 +1,10 @@
-// struct ListNode {
-//     int val;
-//     struct ListNode* next;
-// };
+/**
+ * Definition for a list node.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode* next;
+ * };
+ */
 
 struct ListNode* appendNode(struct ListNode* tail, int val) {
     struct ListNode* newTail = (struct ListNode*)malloc(sizeof(struct ListNode));
