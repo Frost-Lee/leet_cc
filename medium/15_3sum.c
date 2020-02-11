@@ -32,9 +32,13 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
                 while (j < k && copiedNums[j + 1] == copiedNums[j]) {j ++;}
                 j ++;
             } else if (sum < 0) {
-                j ++;
-            } else if (sum > 0) {
-                k --;
+                do {
+                    j ++;
+                } while (j < numsSize && copiedNums[j] == copiedNums[j - 1]);
+            } else {
+                do {
+                    k --;
+                } while (k > 0 && copiedNums[k] == copiedNums[k + 1]);
             }
         }
     }
