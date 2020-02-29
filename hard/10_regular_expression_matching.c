@@ -14,7 +14,7 @@ bool isMatch(char * s, char * p) {
         }
     } else {
         if (p[0] == '.' || s[0] == p[0]) {
-            return isMatch(s + 1, p) || isMatch(s + 1, p + 2) || isMatch(s, p + 2);
+            return isMatch(s + 1, p) || isMatch(s, p + 2);
         } else {
             return isMatch(s, p + 2);
         }
