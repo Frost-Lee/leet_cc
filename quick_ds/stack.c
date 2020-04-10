@@ -13,6 +13,7 @@ typedef Stack* StackPtr;
 StackPtr createStack();
 void push(StackPtr stack, StackNode element);
 StackNode pop(StackPtr stack);
+StackNode peek(StackPtr stack);
 bool isEmpty(StackPtr stack);
 
 StackPtr createStack() {
@@ -36,6 +37,10 @@ void push(StackPtr stack, StackNode element) {
 StackNode pop(StackPtr stack) {
     // This method don't check whether the stack is empty.
     return stack->array[-- stack->size];
+}
+
+StackNode peek(StackPtr stack) {
+    return stack->array[stack->size - 1];
 }
 
 bool isEmpty(StackPtr stack) {
