@@ -1,5 +1,4 @@
 typedef struct {
-    int index;
     int value;
 } HeapNode;
 typedef HeapNode* HeapNodePtr;
@@ -77,40 +76,4 @@ void percolateDown(HeapPtr heap, int index) {
         }
     }
     heap->array[i] = targetNode;
-}
-
-struct ListNode* mergeKLists(struct ListNode** lists, int listsSize) {
-    HeapPtr heap = buildHeap(NULL, 0);
-    struct ListNode* result = (struct ListNode*)malloc(sizeof(struct ListNode));
-    result->next = NULL;
-    struct ListNode* resultTail = result;
-    struct ListNode** listCurrentPositionPointers = (struct ListNode**)malloc(sizeof(struct ListNode*) * listsSize);
-    int resultSize = 0;
-    for (int i = 0; i < listsSize; i ++) {
-        if (lists[i] != NULL) {
-            HeapNode newNode;
-            newNode.index = i;
-            newNode.value = lists[i]->val;
-            pushHeap(heap, newNode);
-            listCurrentPositionPointers[i] = lists[i];
-        } else {
-            listCurrentPositionPointers[i] = NULL;
-        }
-    }
-    while (heap->size > 0) {
-        resultTail->next = (struct ListNode*)malloc(sizeof(struct ListNode));
-        resultTail = resultTail->next;
-        HeapNode topNode = popHeap(heap);
-        resultTail->val = topNode.value;
-        resultTail->next = NULL;
-        if (listCurrentPositionPointers[topNode.index]->next != NULL) {
-            listCurrentPositionPointers[topNode.index] = listCurrentPositionPointers[topNode.index]->next;
-            HeapNode newNode = topNode;
-            newNode.value = listCurrentPositionPointers[topNode.index]->val;
-            pushHeap(heap, newNode);
-        }
-    }
-    free(listCurrentPositionPointers);
-    destroyHeap(heap);
-    return result->next;
 }
