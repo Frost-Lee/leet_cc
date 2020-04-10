@@ -5,7 +5,6 @@ typedef struct {
     struct TreeNode* treeNodePtr;
     int height;
 } QueueElement;
-
 typedef struct QueueNode {
     QueueElement element;
     struct QueueNode* next;
@@ -23,9 +22,6 @@ QueuePtr createQueue();
 void enqueue(QueuePtr queue, QueueElement element);
 QueueElement dequeue(QueuePtr queue);
 void destroyQueue(QueuePtr queue);
-
-QueueElement getQueueElement(struct TreeNode* treeNodePtr, int height);
-void reverse(int* array, int size);
 
 QueuePtr createQueue() {
     QueuePtr result = (QueuePtr)malloc(sizeof(Queue));
