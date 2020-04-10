@@ -1,4 +1,6 @@
-typedef struct TreeNode* StackNode;
+typedef struct {
+    int value;
+} StackNode;
 typedef StackNode* StackNodePtr;
 
 typedef struct {
@@ -43,32 +45,4 @@ bool isEmpty(StackPtr stack) {
 void destroy(StackPtr stack) {
     free(stack->array);
     free(stack);
-}
-
-bool isValidBST(struct TreeNode* root) {
-    if (root == NULL || (root->left == NULL && root->right == NULL)) {
-        return true;
-    }
-    StackPtr stack = createStack();
-    long int lastValue = (long int)INT_MIN - 1;
-    bool result = true;
-    while (root != NULL) {
-        push(stack, root);
-        root = root->left;
-    }
-    while (!isEmpty(stack)) {
-        struct TreeNode* poppedNode = pop(stack);
-        if (poppedNode->val <= lastValue) {
-            result = false;
-            break;
-        }
-        lastValue = poppedNode->val;
-        poppedNode = poppedNode->right;
-        while (poppedNode != NULL) {
-            push(stack, poppedNode);
-            poppedNode = poppedNode->left;
-        }
-    }
-    destroy(stack);
-    return result;
 }
