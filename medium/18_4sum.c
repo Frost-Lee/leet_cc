@@ -32,6 +32,9 @@ int** fourSum(int* nums, int numsSize, int target, int* returnSize, int** return
                     do {
                         p ++;
                     } while (p < numsSize && copiedNums[p] == copiedNums[p - 1]);
+                    do {
+                        q --;
+                    } while (q >= 0 && copiedNums[q + 1] == copiedNums[q]);
                 } else if (sum < target) {
                     do {
                         p ++;
