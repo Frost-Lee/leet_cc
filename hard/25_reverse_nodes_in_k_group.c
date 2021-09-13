@@ -1,39 +1,36 @@
-struct ListNode* reverseKGroup(struct ListNode* head, int k) {
-    struct ListNode* result = NULL;
-    bool shouldSetResult = true;
-    struct ListNode* globalPrev = NULL;
-    while (countNodes(head) >= k) {
-        struct ListNode* tempPrev = NULL;
-        struct ListNode* tempNext = NULL;
-        struct ListNode* tempGlobalPrev = head;
-        for (int i = 0; i < k; i ++) {
-            tempNext = head->next;
-            head->next = tempPrev;
-            tempPrev = head;
-            head = tempNext;
+struct ListNode *reverseTopK(struct ListNode *head, int k, struct ListNode **seg_head, struct ListNode **seg_tail) {
+    struct ListNode *prev = NULL, *next = NULL;
+    size_t length = 0;
+    *seg_tail = head;
+    while (length < k) {
+        if (head == NULL) {
+            return reverseTopK(prev, length, seg_head, seg_tail);
         }
-        head = tempPrev;
-        if (globalPrev != NULL) {
-            globalPrev->next = head;
-        }
-        globalPrev = tempGlobalPrev;
-        if (shouldSetResult) {
-            result = head;
-            shouldSetResult = false;
-        }
-        head = tempNext;
+        next = head->next;
+        head->next = prev;
+        prev = head;
+        head = next;
+        length += 1;
     }
-    if (globalPrev != NULL) {
-        globalPrev->next = head;
-    }
-    return result;
+    *seg_head = prev;
+    (*seg_tail)->next = head;
+    return head;
 }
 
-int countNodes(struct ListNode* head) {
-    int count = 0;
+struct ListNode* reverseKGroup(struct ListNode* head, int k) {
+    struct ListNode *seg_head = NULL, *seg_tail = NULL;
+    struct ListNode *old_seg_tail = NULL;
+    struct ListNode *result = NULL;
     while (head != NULL) {
-        head = head->next;
-        count ++;
+        struct ListNode *x = result;
+        head = reverseTopK(head, k, &seg_head, &seg_tail);
+        if (old_seg_tail != NULL) {
+            old_seg_tail->next = seg_head;
+        }
+        old_seg_tail = seg_tail;
+        if (result == NULL) {
+            result = seg_head;
+        }
     }
-    return count;
+    return result;
 }
