@@ -1,9 +1,9 @@
 int find_rotation_start(int *nums, int nums_size) {
     int start = 0, end = nums_size - 2;
-    if (nums[end] > nums[end + 1]) {
-        return end + 1;
-    }
     while (start <= end) {
+        if (nums[end] > nums[end + 1]) {
+            return end + 1;
+        }
         while (start < end && nums[start] == nums[start + 1]) {
             start += 1;
         }
@@ -21,7 +21,7 @@ int find_rotation_start(int *nums, int nums_size) {
             }
         }
     }
-    return -1;
+    return 0;
 }
 
 int binary_search(int *nums, int start, int end, int target) {

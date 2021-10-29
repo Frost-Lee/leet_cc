@@ -28,5 +28,6 @@ int findMin(int* nums, int numsSize) {
     if (numsSize == 1) {
         return nums[0];
     }
-    return nums[find_rotation_start(nums, numsSize)];
+    int rotation_start = find_rotation_start(nums, numsSize);
+    return nums[rotation_start];
 }
