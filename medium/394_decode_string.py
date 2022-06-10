@@ -17,51 +17,17 @@ class Solution:
                         number = number * 10 + int(string[index])
                         index += 1
                     yield number
-        operator_stack, operand_stack = deque(), deque()
-        is_previous_left_bracket = False
-        def append_add():
-            nonlocal operator_stack, operand_stack
-            while len(operator_stack) > 0 and (operator_stack[-1] == '*' or operator_stack[-1] == '+'):
-                operand_stack.append(operator_stack.pop())
-            operator_stack.append('+')
-        def append_multiply():
-            nonlocal operator_stack, operand_stack
-            while len(operator_stack) > 0 and operator_stack[-1] == '*':
-                operand_stack.append(operator_stack.pop())
-            operator_stack.append('*')
+        multiplier_stack, string_stack = collections.deque(), collections.deque()
+        current_multiplier, current_string = 0, ''
         for element in parse_element(s):
-            if isinstance(element, int):
-                if not is_previous_left_bracket:
-                    append_add()
-                is_previous_left_bracket = False
-                operand_stack.append(element)
-                append_multiply()
-            elif element == '[':
-                is_previous_left_bracket = True
-                operator_stack.append(element)
+            if element == '[':
+                multiplier_stack.append(current_multiplier)
+                string_stack.append(current_string)
+                current_string = ''
             elif element == ']':
-                is_previous_left_bracket = False
-                while operator_stack[-1] != '[':
-                    operand_stack.append(operator_stack.pop())
-                operator_stack.pop()
+                current_string = string_stack.pop() + multiplier_stack.pop() * current_string
+            elif isinstance(element, int):
+                current_multiplier = element
             elif isinstance(element, str):
-                if not is_previous_left_bracket:
-                    append_add()
-                is_previous_left_bracket = False
-                operand_stack.append(element)
-        while len(operator_stack) > 0:
-            operand_stack.append(operator_stack.pop())
-        calculation_stack = deque([''])
-        while len(operand_stack) > 0:
-            element = operand_stack.popleft()
-            if element == '+':
-                right = calculation_stack.pop()
-                left = calculation_stack.pop()
-                calculation_stack.append(left + right)
-            elif element == '*':
-                target_string = calculation_stack.pop()
-                multiplier = calculation_stack.pop()
-                calculation_stack.append(multiplier * target_string)
-            else:
-                calculation_stack.append(element)
-        return calculation_stack[0]
+                current_string += element
+        return current_string
