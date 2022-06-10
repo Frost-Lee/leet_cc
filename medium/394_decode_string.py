@@ -13,7 +13,7 @@ class Solution:
                     index += 1
                 elif ord('0') <= ord(string[index]) <= ord('9'):
                     number = 0
-                    while ord('0') <= ord(string[index]) <= ord('9'):
+                    while index < len(string) and ord('0') <= ord(string[index]) <= ord('9'):
                         number = number * 10 + int(string[index])
                         index += 1
                     yield number
