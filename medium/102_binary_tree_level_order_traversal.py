@@ -1,18 +1,20 @@
+import collections
+
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        result_list, bfs_queue = [], []
         if root is None:
-            return result_list
+            return []
+        result, bfs_queue = [], collections.deque()
         bfs_queue.append(root)
         while len(bfs_queue) > 0:
-            temp_queue, level_numbers = [], []
-            while len(bfs_queue) > 0:
-                visited_node = bfs_queue.pop(0)
-                level_numbers.append(visited_node.val)
-                if visited_node.left is not None:
-                    temp_queue.append(visited_node.left)
-                if visited_node.right is not None:
-                    temp_queue.append(visited_node.right)
-            result_list.append(level_numbers)
-            bfs_queue = temp_queue
-        return result_list
+            original_length = len(bfs_queue)
+            result_element = []
+            for i in range(original_length):
+                node = bfs_queue.popleft()
+                result_element.append(node.val)
+                if node.left is not None:
+                    bfs_queue.append(node.left)
+                if node.right is not None:
+                    bfs_queue.append(node.right)
+            result.append(result_element)
+        return result
