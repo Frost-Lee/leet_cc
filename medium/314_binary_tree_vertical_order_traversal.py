@@ -2,18 +2,19 @@ import collections
 
 class Solution:
     def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        result_dict = {}
         if root is None:
             return []
-        node_queue = collections.deque([(root, 0)])
-        while len(node_queue) > 0:
-            popped_node, shift = node_queue.popleft()
-            if popped_node.left is not None:
-                node_queue.append((popped_node.left, shift - 1))
-            if popped_node.right is not None:
-                node_queue.append((popped_node.right, shift + 1))
-            if shift in result_dict:
-                result_dict[shift].append(popped_node.val)
-            else:
-                result_dict[shift] = [popped_node.val]
-        return [*map(lambda x: x[1], sorted([*result_dict.items()], key=lambda x: x[0]))]
+        column_dict = defaultdict(list)
+        bfs_queue = collections.deque()
+        min_column_index, max_column_index = 0, 0
+        bfs_queue.append((root, 0))
+        while len(bfs_queue) > 0:
+            node, column_index = bfs_queue.popleft()
+            column_dict[column_index].append(node.val)
+            if node.left is not None:
+                bfs_queue.append((node.left, column_index - 1))
+                min_column_index = min(min_column_index, column_index - 1)
+            if node.right is not None:
+                bfs_queue.append((node.right, column_index + 1))
+                max_column_index = max(max_column_index, column_index + 1)
+        return [column_dict[i] for i in range(min_column_index, max_column_index + 1)]
