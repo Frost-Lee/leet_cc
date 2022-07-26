@@ -1,18 +1,19 @@
-struct TreeNode* lca = NULL;
-
-bool dfs(struct TreeNode* root, struct TreeNode* p, struct TreeNode* q) {
-    if (!root) {
+bool dfs(struct TreeNode *root, struct TreeNode *p, struct TreeNode *q, struct TreeNode **result) {
+    if (root == NULL) {
         return false;
     }
-    bool targetInLeft = dfs(root->left, p, q);
-    bool targetInRight = dfs(root->right, p, q);
-    if ((targetInLeft && targetInRight) || ((targetInLeft || targetInRight) && (root == p || root == q))) {
-        lca = root;
+    short middle = (int)(root == p || root == q);
+    short left = (int)(dfs(root->left, p, q, result));
+    short right = (int)(dfs(root->right, p, q, result));
+    short state_sum = middle + left + right;
+    if (state_sum >= 2) {
+        *result = root;
     }
-    return targetInLeft || targetInRight || root == p || root == q;
+    return state_sum > 0;
 }
 
 struct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p, struct TreeNode* q) {
-    dfs(root, p, q);
-    return lca;
+    struct TreeNode *result = NULL;
+    dfs(root, p, q, &result);
+    return result;
 }
